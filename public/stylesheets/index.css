@@ -1,0 +1,32 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+header {
+    height: 50px;
+    background-color: aquamarine;
+    width: 100%
+}
+body{
+    background-color: rgb(246, 206, 206);
+    margin: 0 0 100px;
+    padding: 25px;
+}
+
+h3 {
+    color:rgb(44, 36, 36);
+}
+
+ul {
+    list-style-type: none;
+}
+footer {
+    background-color: aquamarine;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 100 px;
+    width: 100%;
+    overflow: hidden;
+}

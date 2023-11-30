@@ -1,0 +1,20 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link href= "/stylesheets/credit.css" rel="stylesheet" type="text/css">
+    <title>Automarket - Order</title>
+</head>
+
+<body>
+    <h3>Credit Card Transaction Result</h3>
+    <il>
+        <% for (item in data) { %>
+            <li>
+            <%= item %>: <%= data[item] %>
+            </li>
+        <% }; %>
+    </il>
+</body>
+
+</html>

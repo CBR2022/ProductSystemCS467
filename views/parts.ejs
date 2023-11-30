@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href= "/stylesheets/parts.css" rel="stylesheet" type="text/css">
+    <title>Automarket - Shop</title>
+</head>
+
+<body>
+    <h3>Available Items</h3>
+    <ul>
+        <% for (part in all) { %>
+            <li>
+            <img src=<%= all[part].pictureURL %>>
+            <br>
+            <%= all[part].description %>
+            <br>
+            $<%= all[part].price %>
+            <br>
+            <%= all[part].weight %> lb.
+            <br>
+            </li>
+        <% }; %>
+        </ul>
+</body>
+
+</html>
