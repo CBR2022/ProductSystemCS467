@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+</head>
+<body>
+    <h1>Shopping Cart</h1>
+    <table>
+        <tr>
+            <td>
+                {% for product in cart %}
+                    <li>{{ product['name'] }} - ${{ product['price'] }} - Qty{{ product['quantity'] }} </li>
+                {% endfor %}
+            </td>
+       </tr>
+    </table>
+    <p>Total Price: ${{ total_price }}</p>
+    <form action="{{ url_for('checkout') }}" method="post">
+        <script
+            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-key="your_stripe_publishable_key"
+            data-amount="{{ total_price * 100 }}"
+            data-currency="usd"
+            data-name="Your Company"
+            data-description="Payment"
+            data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+            data-locale="auto"
+        ></script>
+    </form>
+</body>
+</html>
