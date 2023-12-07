@@ -3,31 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <title>Shopping Cart</title>
 </head>
-<body>
-    <h1>Shopping Cart</h1>
-    <table>
-        <tr>
-            <td>
+<body class="container mt-4">
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">NIU Auto Parts</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ url_for('index') }}">Home </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('cat') }}">Catalog <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('rdesk') }}">Receiving Desk</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('index') }}">Warehouse</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('admin') }}">Administration</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
                 {% for product in cart %}
-                    <li>{{ product['name'] }} - ${{ product['price'] }} - Qty{{ product['quantity'] }} </li>
+                <tr>
+                    <td style="width: 180px;">{{ product['name'] }}</td>
+                    <td style="width: 180px;">${{ product['price'] }}</td>
+                    <td style="width: 160px;">
+                        <form action="{{ url_for('update_scart', product_id=product['id']) }}" method="post"
+                            class="form-inline">
+                            <input type="number" name="quantity" value="{{ product['quantity'] }}" min="1"
+                                required class="form-control" style="width: 70px;">
+                            <button type="submit" class="btn btn-primary ml-2">Update Quantity</button>
+                        </form>
+                    </td>
+                    <td style="width: 120px;">
+                        <a href="{{ url_for('remove_from_cart', product_id=product['id']) }}"
+                            class="btn btn-danger">Remove From Cart </a>
+                    </td>
+                </tr>
                 {% endfor %}
-            </td>
-       </tr>
-    </table>
-    <p>Total Price: ${{ total_price }}</p>
+            </tbody>
+        </table>
+
+     <p>Total Chaunk: {{ total_chaunk }} lbs.</p>
+    <p class="mt-3">Total Price: ${{ total_price }}</p>
+    <p>Total Chaunk Fees: ${{ total_fees }}</p>
+    <p class="mt-3">Order Total: ${{ order_price }}</p>
     <form action="{{ url_for('checkout') }}" method="post">
-        <script
-            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-            data-key="your_stripe_publishable_key"
-            data-amount="{{ total_price * 100 }}"
-            data-currency="usd"
-            data-name="Your Company"
-            data-description="Payment"
-            data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
-            data-locale="auto"
-        ></script>
+        <label for="fname">First Name: </label>
+        <input type="text" name="fname" required><br>
+
+        <label for="lname">Last NAme:</label>
+        <input type="text" name="lname" required><br>
+
+        <label for="email">Email:</label>
+        <input type="text" name="email" required><br>
+        <label for="email">Address:</label>
+        <input type="text" name="addr" required><br>
+        <label for="email">City:</label>
+        <input type="text" name="cty"  required><br>
+        <label for="email">State:</label>
+        <input type="text" name="state" required maxlength="2" size="3"><br>
+        <label for="email">Zip:</label>
+        <input type="number" name="zip" required maxlength="6" size="7"><br>
+        <label for="CCN">Credit Card Number:</label>
+        <input type="number" name="CCN" required maxlength="16" size="17"><br>
+
+        <label for="CCNExp">CC Expirey:</label>
+        <input type="text" name="CCNExp" required maxlength="7" size="8"><br>
+
+        <input type="hidden" id="tprice" name="tprice" value={{ total_price }}>
+        <input type="hidden" id="tchaunk" name="tchaunk" value={{ total_chaunk }}>
+        <input type="hidden" id="tfees" name="tfees" value={{ total_fees }}>
+        <input type="hidden" id="oprice" name="oprice" value={{ order_price }}>
+        <button type="submit" class="btn btn-primary">Checkout</button>
     </form>
+
+    <!-- Bootstrap JS and Popper.js Links -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+        integrity="sha384-d5Jl+6nGQ8Yej5Oqvn9lHfN7l9pmbOciUa51p7Nkh1UVECKOog2iE8tSCBbU8NRY"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyAq7Zx3f5u6pGFCkkR8NqS4k6a0bd9GIj"
+        crossorigin="anonymous"></script>
 </body>
 </html>
